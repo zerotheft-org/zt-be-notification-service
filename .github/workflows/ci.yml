@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: ['**']
+
+jobs:
+  secret-scan:
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-secret-scan.yml@main
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  sast-scan:
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-sast-scan.yml@main
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  dependency-scan:
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-dependency-scan.yml@main
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  backend-ci:
+    needs: [secret-scan, sast-scan, dependency-scan]
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-backend-ci.yml@main
+    with:
+      python-version: "3.12"
+
+  security-reporting:
+    needs: [secret-scan, sast-scan, dependency-scan]
+    if: always()
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-defectdojo-upload.yml@main
+    permissions:
+      contents: read
+    secrets:
+      DEFECTDOJO_URL: ${{ secrets.DEFECTDOJO_URL }}
+      DEFECTDOJO_API_TOKEN: ${{ secrets.DEFECTDOJO_API_TOKEN }}
