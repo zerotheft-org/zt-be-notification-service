@@ -35,6 +35,20 @@ jobs:
     with:
       python-version: "3.12"
 
+  docker-build-push:
+    needs: [backend-ci]
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-docker-build-push.yml@v1.0.0
+    permissions:
+      contents: read
+      id-token: write
+      security-events: write
+    with:
+      service_name: notification-service
+      dockerfile_path: Dockerfile
+      context: .
+    secrets:
+      aws_role_arn: ${{ secrets.AWS_ECR_PUSH_ROLE_ARN }}
+
   security-reporting:
     needs: [secret-scan, sast-scan, dependency-scan]
     if: always()
