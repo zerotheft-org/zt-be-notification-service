@@ -1,4 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
+
+# Security: update base packages to patch known vulnerabilities
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -7,6 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8001
+EXPOSE 8000
 
 CMD ["python", "app/main.py"]
