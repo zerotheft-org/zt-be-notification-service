@@ -43,7 +43,7 @@ jobs:
       id-token: write
       security-events: write
     with:
-      service_name: notification-service
+      service_name: zt/notification-service
       dockerfile_path: Dockerfile
       context: .
     secrets:
