@@ -46,8 +46,8 @@ jobs:
       service_name: zt/notification-service
       dockerfile_path: Dockerfile
       context: .
-      codeartifact_domain: zerotheft
-      codeartifact_repo: zerotheft-python
+      codeartifact_domain: zt
+      codeartifact_repo: zt-python
       codeartifact_owner: "744561091152"
     secrets:
       aws_role_arn: ${{ secrets.AWS_ECR_PUSH_ROLE_ARN }}
