@@ -9,21 +9,21 @@ on:
 
 jobs:
   secret-scan:
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-secret-scan.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-secret-scan.yml@v1.1.6
     permissions:
       actions: read
       contents: read
       security-events: write
 
   sast-scan:
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-sast-scan.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-sast-scan.yml@v1.1.6
     permissions:
       actions: read
       contents: read
       security-events: write
 
   dependency-scan:
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-dependency-scan.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-dependency-scan.yml@v1.1.6
     permissions:
       actions: read
       contents: read
@@ -31,13 +31,13 @@ jobs:
 
   backend-ci:
     needs: [secret-scan, sast-scan, dependency-scan]
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-backend-ci.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-backend-ci.yml@v1.1.6
     with:
       python-version: "3.12"
 
   docker-build-push:
     needs: [backend-ci]
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-docker-build-push.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-docker-build-push.yml@v1.1.6
     permissions:
       contents: read
       id-token: write
@@ -55,7 +55,7 @@ jobs:
   security-reporting:
     needs: [secret-scan, sast-scan, dependency-scan]
     if: always()
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-defectdojo-upload.yml@v1.1.4
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-defectdojo-upload.yml@v1.1.6
     permissions:
       contents: read
     secrets:
