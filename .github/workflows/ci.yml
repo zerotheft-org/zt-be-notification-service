@@ -37,7 +37,7 @@ jobs:
 
   docker-build-push:
     needs: [backend-ci]
-    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-docker-build-push.yml@v1.1.7
+    uses: zerotheft-org/zt-plat-github-workflows/.github/workflows/reusable-docker-build-push.yml@main
     permissions:
       contents: read
       id-token: write
